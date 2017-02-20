@@ -25,7 +25,7 @@ public class CloudantService: Service {
     public let port        : Int
     public let url         : String
 
-    public init?(withService service: Service) {
+    public init(withService service: Service) throws {
 
         guard let credentials = service.credentials,
               let host      = credentials["host"] as? String,
@@ -33,7 +33,7 @@ public class CloudantService: Service {
               let password  = credentials["password"] as? String,
               let port      = credentials["port"] as? Int,
               let url       = credentials["url"] as? String else {
-            return nil
+            throw ConfigurationManagerError.invalidServiceCredentials
         }
 
         self.host     = host
@@ -58,14 +58,14 @@ public class AlertNotificationService: Service {
   public let password: String
   public let swaggerUI: String
 
-  public init?(withService service: Service) {
+  public init(withService service: Service) throws {
 
       guard let credentials = service.credentials,
-        let url = credentials["url"] as? String,
-        let id = credentials["name"] as? String,
-        let swaggerUI = credentials["swaggerui"] as? String,
-        let password = credentials["password"] as? String else {
-          return nil
+            let url = credentials["url"] as? String,
+            let id = credentials["name"] as? String,
+            let swaggerUI = credentials["swaggerui"] as? String,
+            let password = credentials["password"] as? String else {
+          throw ConfigurationManagerError.invalidServiceCredentials
       }
 
       self.url = url
@@ -89,11 +89,11 @@ public class MongoDBService: Service {
     public let port        : Int
     public let certificate : String
 
-    public init?(withService service: Service) {
+    public init(withService service: Service) throws {
 
         guard let credentials = service.credentials else {
             print("Service credentials were nil.")
-            return nil
+            throw ConfigurationManagerError.invalidServiceCredentials
         }
 
         // Use SSL uri if available
@@ -112,13 +112,13 @@ public class MongoDBService: Service {
         }
 
         guard let stringURL = uriValue, stringURL.characters.count > 0,
-            let url         = URL(string: stringURL),
-            let host        = url.host,
-            let username    = url.user,
-            let password    = url.password,
-            let port        = url.port,
-            let certificate = credentials["ca_certificate_base64"] as? String else {
-                return nil
+              let url         = URL(string: stringURL),
+              let host        = url.host,
+              let username    = url.user,
+              let password    = url.password,
+              let port        = url.port,
+              let certificate = credentials["ca_certificate_base64"] as? String else {
+            throw ConfigurationManagerError.invalidServiceCredentials
         }
 
         self.host        = host
@@ -143,7 +143,7 @@ public class RedisService: Service {
     public let password    : String
     public let port        : Int
 
-    public init?(withService service: Service) {
+    public init(withService service: Service) throws {
 
         guard let credentials = service.credentials,
               let uri       = credentials["uri"] as? String,
@@ -151,7 +151,7 @@ public class RedisService: Service {
               let host      = url.host,
               let password  = url.password,
               let port      = url.port else {
-            return nil
+            throw ConfigurationManagerError.invalidServiceCredentials
         }
 
         self.host     = host
@@ -173,7 +173,7 @@ public class PostgreSQLService: Service {
     public let username         : String
     public let password         : String
 
-    public init?(withService service: Service) {
+    public init(withService service: Service) throws {
 
         guard let credentials   = service.credentials,
               let uri           = credentials["uri"] as? String,
@@ -182,7 +182,7 @@ public class PostgreSQLService: Service {
               let port          = url.port,
               let username      = url.user,
               let password      = url.password else {
-                return nil
+            throw ConfigurationManagerError.invalidServiceCredentials
         }
 
         self.host               = host
@@ -207,16 +207,16 @@ public class MySQLService: Service {
     public let password         : String
     public let port             : Int
 
-    public init?(withService service: Service) {
+    public init(withService service: Service) throws {
 
         guard let credentials = service.credentials,
-            let database   = credentials["name"] as? String,
-            let host       = credentials["hostname"] as? String,
-            let username   = credentials["username"] as? String,
-            let password   = credentials["password"] as? String,
-            let stringPort = credentials["port"] as? String,
-            let port       = Int(stringPort) else {
-                return nil
+              let database   = credentials["name"] as? String,
+              let host       = credentials["hostname"] as? String,
+              let username   = credentials["username"] as? String,
+              let password   = credentials["password"] as? String,
+              let stringPort = credentials["port"] as? String,
+              let port       = Int(stringPort) else {
+            throw ConfigurationManagerError.invalidServiceCredentials
         }
 
         self.database = database
@@ -242,15 +242,15 @@ public class DB2Service: Service {
     public let uid          : String
     public let pwd          : String
 
-    public init?(withService service: Service) {
+    public init(withService service: Service) throws {
 
         guard let credentials = service.credentials,
-            let database = credentials["db"] as? String,
-            let host = credentials["host"] as? String,
-            let port = credentials["port"] as? Int,
-            let uid = credentials["username"] as? String,
-            let pwd = credentials["password"] as? String else {
-            return nil
+              let database = credentials["db"] as? String,
+              let host = credentials["host"] as? String,
+              let port = credentials["port"] as? Int,
+              let uid = credentials["username"] as? String,
+              let pwd = credentials["password"] as? String else {
+            throw ConfigurationManagerError.invalidServiceCredentials
         }
 
         self.database = database
@@ -275,14 +275,14 @@ public class ObjectStorageService: Service {
     public let userID:    String
     public let password:  String
 
-    public init?(withService service: Service) {
+    public init(withService service: Service) throws {
         guard let credentials = service.credentials,
               let region      = credentials["region"] as? String,
               let projectID   = credentials["projectId"] as? String,
               let userID      = credentials["userId"] as? String,
               let password    = credentials["password"] as? String else {
 
-            return nil
+            throw ConfigurationManagerError.invalidServiceCredentials
         }
 
         self.region = region

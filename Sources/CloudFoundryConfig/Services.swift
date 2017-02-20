@@ -268,3 +268,32 @@ public class DB2Service: Service {
     }
 
 }
+
+public class ObjectStorageService: Service {
+    public let region:    String
+    public let projectID: String
+    public let userID:    String
+    public let password:  String
+
+    public init?(withService service: Service) {
+        guard let credentials = service.credentials,
+              let region      = credentials["region"] as? String,
+              let projectID   = credentials["projectId"] as? String,
+              let userID      = credentials["userId"] as? String,
+              let password    = credentials["password"] as? String else {
+
+            return nil
+        }
+
+        self.region = region
+        self.projectID = projectID
+        self.userID = userID
+        self.password = password
+
+        super.init(name:        service.name,
+                   label:       service.label,
+                   plan:        service.plan,
+                   tags:        service.tags,
+                   credentials: service.credentials)
+    }
+}

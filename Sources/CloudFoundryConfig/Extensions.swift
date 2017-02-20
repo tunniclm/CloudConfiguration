@@ -97,4 +97,14 @@ extension ConfigurationManager {
         }
     }
 
+    public func getObjectStorageService(name: String) throws -> ObjectStorageService {
+
+        if let service = getService(spec: name),
+            let objectStorageService = ObjectStorageService(withService: service) {
+                return objectStorageService
+        } else {
+            throw ConfigurationManagerError.noServiceWithName(name)
+        }
+    }
+
 }

@@ -150,7 +150,25 @@
 		     "ibm_dedicated_public"
 		    ]
 		   }
-		]
+		],
+		"Object-Storage": [{
+			"credentials": {
+				"password": "<password>",
+				"projectId": "<projectId>",
+				"region": "<region>",
+				"userId": "<userId>"
+			},
+			"label": "Object-Storage",
+			"name": "ObjectStorageService",
+			"plan": "Free",
+			"provider": null,
+			"syslog_drain_url": null,
+			"tags": [
+				"storage",
+				"ibm_release",
+				"ibm_created"
+			]
+		}]
 	},
 	"VCAP_APPLICATION": {
 		"application_id": "ad28c3b1-744d-446e-bf6e-80d8b916916e",

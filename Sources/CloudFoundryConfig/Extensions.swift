@@ -116,6 +116,16 @@ extension ConfigurationManager {
 
     }
 
+    public func getObjectStorageService(name: String) throws -> ObjectStorageService {
+
+        if let service = try findService(name: name),
+            let objectStorageService = ObjectStorageService(withService: service) {
+            return objectStorageService
+        } else {
+            throw ConfigurationManagerError.noServiceWithName(name)
+        }
+    }
+
     public var applicationPort: Int {
 
         if let port = try? CloudFoundryEnv.getAppEnv().port {

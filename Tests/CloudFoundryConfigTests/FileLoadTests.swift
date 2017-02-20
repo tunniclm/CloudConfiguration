@@ -88,6 +88,13 @@ class FileLoadTests: XCTestCase {
             XCTAssertEqual(alertNotificationService.password, "alertnotification-pwd", "Alert Notification Service password should match.")
             XCTAssertEqual(alertNotificationService.swaggerUI, "https://ibmnotifybm.mybluemix.net/docs/alerts/v1", "Alert Notification Service swaggerUI should match.")
 
+            let objectStorageService = try manager.getObjectStorageService(name: "ObjectStorageService")
+
+            XCTAssertGreaterThan(objectStorageService.region.characters.count, 0)
+            XCTAssertGreaterThan(objectStorageService.projectID.characters.count, 0)
+            XCTAssertGreaterThan(objectStorageService.userID.characters.count, 0)
+            XCTAssertGreaterThan(objectStorageService.password.characters.count, 0)
+
         } catch {
             XCTFail("Could not load configuration. Error: \(error)")
         }
